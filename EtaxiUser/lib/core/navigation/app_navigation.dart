@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'page_transitions.dart';
 
 class AppNavigator {
   AppNavigator({required this.context});
@@ -25,64 +26,24 @@ class AppNavigator {
     Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst);
   }
 
-  Future<dynamic> pushNamed(
-    String name, {
-    Map<String, String> pathParameters = const <String, String>{},
-    Map<String, dynamic> queryParameters = const <String, dynamic>{},
-    Object? extra,
-  }) async {
-    return GoRouter.of(context).pushNamed(
-      name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+  Future<dynamic> pushNamed(String name, {Map<String, String> pathParameters = const <String, String>{}, Map<String, dynamic> queryParameters = const <String, dynamic>{}, Object? extra, PageTransitionType transitionType = PageTransitionType.slideRight, Duration duration = const Duration(milliseconds: 300)}) async {
+    return GoRouter.of(context).pushNamed(name, pathParameters: pathParameters, queryParameters: queryParameters, extra: extra);
   }
 
   Future<dynamic> push(String location, {Object? extra}) async {
     return GoRouter.of(context).push(location, extra: extra);
   }
 
-  Future<dynamic> pushReplacementNamed(
-    String name, {
-    Map<String, String> pathParameters = const <String, String>{},
-    Map<String, dynamic> queryParameters = const <String, dynamic>{},
-    Object? extra,
-  }) async {
-    return GoRouter.of(context).pushReplacementNamed(
-      name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+  Future<dynamic> pushReplacementNamed(String name, {Map<String, String> pathParameters = const <String, String>{}, Map<String, dynamic> queryParameters = const <String, dynamic>{}, Object? extra, PageTransitionType transitionType = PageTransitionType.slideRight, Duration duration = const Duration(milliseconds: 300)}) async {
+    return GoRouter.of(context).pushReplacementNamed(name, pathParameters: pathParameters, queryParameters: queryParameters, extra: extra);
   }
 
-  Future<dynamic> replaceNamed(
-    String name, {
-    Map<String, String> pathParameters = const <String, String>{},
-    Map<String, dynamic> queryParameters = const <String, dynamic>{},
-    Object? extra,
-  }) async {
-    return GoRouter.of(context).replaceNamed(
-      name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+  Future<dynamic> replaceNamed(String name, {Map<String, String> pathParameters = const <String, String>{}, Map<String, dynamic> queryParameters = const <String, dynamic>{}, Object? extra}) async {
+    return GoRouter.of(context).replaceNamed(name, pathParameters: pathParameters, queryParameters: queryParameters, extra: extra);
   }
 
-  void goNamed(
-    String name, {
-    Map<String, String> pathParameters = const <String, String>{},
-    Map<String, dynamic> queryParameters = const <String, dynamic>{},
-    Object? extra,
-  }) {
-    GoRouter.of(context).goNamed(
-      name,
-      pathParameters: pathParameters,
-      queryParameters: queryParameters,
-      extra: extra,
-    );
+  void goNamed(String name, {Map<String, String> pathParameters = const <String, String>{}, Map<String, dynamic> queryParameters = const <String, dynamic>{}, Object? extra, PageTransitionType transitionType = PageTransitionType.slideRight, Duration duration = const Duration(milliseconds: 300)}) {
+    GoRouter.of(context).goNamed(name, pathParameters: pathParameters, queryParameters: queryParameters, extra: extra);
   }
 
   void go(String location, {Object? extra}) {

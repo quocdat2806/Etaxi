@@ -68,7 +68,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   flutter_slidable: ^4.0.3
   share_plus: ^12.0.0
-  google_mobile_ads: ^6.0.0
+  video_player: ^2.9.2
 
 dev_dependencies:
   flutter_test:
@@ -131,6 +131,7 @@ flutter:
     - assets/svgs/
     - assets/fonts/
     - assets/images/
+    - assets/videos/
     - .env
   fonts:
     - family: OpenSans

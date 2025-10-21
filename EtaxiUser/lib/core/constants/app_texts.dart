@@ -104,4 +104,14 @@ class AppTextConstants {
   static const String amount = 'Số tiền';
   static const String icon = 'Biểu tượng';
   static const String notes = 'Ghi chú';
+
+  static const String welcomeToETaxi = 'Chào mừng đến với ETaxi';
+  static const String continueText = 'Tiếp tục';
+  static const String termsOfService = 'Điều khoản và dịch vụ';
+  static const String and = 'và';
+  static const String of = 'của';
+  static const String eTaxi = 'ETaxi';
+  static const String byContinuing = 'Bằng cách nhấn nút Tiếp tục, bạn đã đồng ý với các ';
+  static const String agreeTo = 'Đồng ý với';
+  static const String termsAndConditions = 'Điều khoản và điều kiện';
 }

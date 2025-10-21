@@ -346,7 +346,7 @@ class UserRepositoryImpl implements UserRepository {
 ### Bloc Implementation
 ```
 @freezed
-class UserState with _$UserState {
+ abstract class UserState with _$UserState {
   const factory UserState.initial() = _Initial;
   const factory UserState.loading() = _Loading;
   const factory UserState.loaded(User user) = _Loaded;
@@ -354,12 +354,12 @@ class UserState with _$UserState {
 }
 
 @freezed
-class UserEvent with _$UserEvent {
+abstract class UserEvent with _$UserEvent {
   const factory UserEvent.getUser(String id) = _GetUser;
   const factory UserEvent.refreshUser() = _RefreshUser;
 }
 
-class UserBloc extends Bloc<UserEvent, UserState> {
+abstract class UserBloc extends Bloc<UserEvent, UserState> {
   final GetUser getUser;
   String? currentUserId;
 
@@ -466,6 +466,32 @@ void initDependencies() {
   // Bloc
   getIt.registerFactory(() => UserBloc(getUser: getIt()));
 }
+```
+
+# widgets
+```
+ - Use lightweight and performance-friendly widgets:
+    ✅ Prefer SizedBox, Padding, Align, or DecoratedBox instead of generic Container 
+       (unless multiple properties like decoration + constraints are needed).
+    ✅ Prefer ListView.builder or SliverList instead of SingleChildScrollView when displaying lists or dynamic items.
+    ⚠️ Only use SingleChildScrollView if the content is very small, 
+       such as a fixed form with a few pre-defined widgets (under ~5 items).
+
+  - UI decomposition:
+    ✅ Extract repetitive or logical widget parts into private builder methods (e.g. _buildHeader(), _buildListItem()).
+    ✅ If a _build method exceeds 35 lines, move it to a separate widget file 
+       under the 'widgets/' folder, e.g. /presentation/widgets/my_list_item.dart.
+
+  - Common / shared widgets:
+    ✅ Store reusable widgets (buttons, inputs, cards, etc.) inside /presentation/widgets.
+
+  - Performance optimization:
+    ✅ Use const constructors whenever possible.
+    ✅ Use const SizedBox for spacing instead of Padding or Container.
+    ✅ Use ListView.builder for dynamic lists.
+    ✅ Avoid rebuilding entire screens — extract widgets into Stateless or separate components where possible.
+  `,
+
 ```
 
 Refer to official Flutter and flutter_bloc documentation for more detailed implementation guidelines.

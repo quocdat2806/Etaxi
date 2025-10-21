@@ -2,11 +2,13 @@ import 'package:etaxi_user/application/authentication/authentication_bloc.dart';
 import 'package:etaxi_user/presentation/pages/main/main_page.dart';
 import 'package:etaxi_user/presentation/pages/onboarding/onboarding_page.dart';
 import 'package:etaxi_user/presentation/pages/splash/splash_page.dart';
+import 'package:etaxi_user/presentation/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import './router_path.dart';
 import './router_refresh.dart';
+import './page_transitions.dart';
 
 class AppRouter {
   AppRouter(this.authBloc);
@@ -19,9 +21,26 @@ class AppRouter {
     refreshListenable: RouterRefresh(authBloc.stream),
     errorBuilder: (_, GoRouterState state) => const Scaffold(body: Center(child: Text('Page not found'))),
     routes: <RouteBase>[
-      GoRoute(name: RouterPath.splash, path: RouterPath.splash, builder: (_, _) => const SplashPage()),
-      GoRoute(name: RouterPath.main, path: RouterPath.main, builder: (_, _) => const MainPage()),
-      GoRoute(name: RouterPath.onboarding, path: RouterPath.onboarding, builder: (_, _) => const OnboardingPage()),
+      GoRoute(
+        name: RouterPath.splash,
+        path: RouterPath.splash,
+        pageBuilder: (context, state) => PageTransitions.fadeTransition(context: context, state: state, child: const SplashPage()),
+      ),
+      GoRoute(
+        name: RouterPath.main,
+        path: RouterPath.main,
+        pageBuilder: (context, state) => PageTransitions.slideTransition(context: context, state: state, child: const MainPage()),
+      ),
+      GoRoute(
+        name: RouterPath.onboarding,
+        path: RouterPath.onboarding,
+        pageBuilder: (context, state) => PageTransitions.slideTransition(context: context, state: state, child: const OnboardingPage()),
+      ),
+      GoRoute(
+        name: RouterPath.login,
+        path: RouterPath.login,
+        pageBuilder: (context, state) => PageTransitions.slideTransition(context: context, state: state, child: const LoginPage()),
+      ),
     ],
     // redirect: (BuildContext context, GoRouterState state) {
     //   final bool isAuthenticated = authBloc.state.isAuthenticated;
