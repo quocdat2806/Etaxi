@@ -1,8 +1,5 @@
-class AppImages {
-  AppImages._();
-
-  // Videos
-  static const String introVideo = 'assets/videos/intro.mp4';
+class AppAssets {
+  AppAssets._();
 
   // Logos
   static const String logo = 'assets/images/logo.png';
@@ -15,6 +12,11 @@ class AppImages {
   // Login images
   static const String vietnamFlag = 'assets/images/vietnam_flag.png';
   static const String englishFlag = 'assets/images/english_flag.png';
+  static const String svgHome = 'assets/svgs/home.svg';
+  static const String svgActivity = 'assets/svgs/activity.svg';
+  static const String svgDiscover = 'assets/svgs/discover.svg';
+  static const String svgNotification = 'assets/svgs/notification.svg';
+  static const String svgProfile = 'assets/svgs/profile.svg';
 
   static const List<String> onboardingImages = <String>[ob1, ob2, ob3];
 }

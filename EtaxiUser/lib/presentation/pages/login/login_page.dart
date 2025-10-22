@@ -1,13 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:etaxi_user/core/constants/app_colors.dart';
+import 'package:etaxi_user/core/constants/app_dimensions.dart';
+import 'package:etaxi_user/core/constants/app_images.dart';
+import 'package:etaxi_user/core/constants/app_texts.dart';
+import 'package:etaxi_user/core/navigation/navigation.dart';
 import 'package:etaxi_user/presentation/blocs/login/login_bloc.dart';
 import 'package:etaxi_user/presentation/blocs/login/login_event.dart';
 import 'package:etaxi_user/presentation/blocs/login/login_state.dart';
 import 'package:etaxi_user/presentation/widgets/button/app_button.dart';
-import 'package:etaxi_user/presentation/widgets/input/phone_input_field.dart';
-import 'package:etaxi_user/presentation/widgets/modal/otp_method_selection_modal.dart';
-import 'package:etaxi_user/core/constants/app_images.dart';
+import 'package:etaxi_user/presentation/widgets/input/app_text_input.dart';
+import 'package:etaxi_user/presentation/widgets/modal/select_language_modal.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,24 +23,20 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late LoginBloc _bloc;
   final TextEditingController _phoneController = TextEditingController();
+  late final AppNavigator _navigator;
 
   @override
   void initState() {
     super.initState();
     _bloc = LoginBloc();
-    _phoneController.addListener(_onPhoneChanged);
+    _navigator = AppNavigator(context: context);
   }
 
   @override
   void dispose() {
-    _phoneController.removeListener(_onPhoneChanged);
     _phoneController.dispose();
     _bloc.close();
     super.dispose();
-  }
-
-  void _onPhoneChanged() {
-    _bloc.add(LoginEvent.phoneNumberChanged(_phoneController.text));
   }
 
   @override
@@ -47,10 +47,19 @@ class _LoginPageState extends State<LoginPage> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
+              spacing: AppDimensConstants.defaultSpacing,
               children: [
                 _buildHeader(),
-                const SizedBox(height: 20),
-                Padding(padding: const EdgeInsets.symmetric(horizontal: 24), child: _buildPhoneInput()),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppDimensConstants.defaultPadding),
+                  child: Column(
+                    children: [
+                      _buildPhoneInput(),
+                      SizedBox(height: AppDimensConstants.extraLargeSpacing),
+                      _buildContinueButton(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -61,7 +70,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildHeader() {
     return Container(
-      height: 250,
+      padding: const EdgeInsets.all(AppDimensConstants.largePadding),
+      height: 220,
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF7FFFD4), Color(0XFFE0FFFF)]),
@@ -71,26 +81,35 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildSelectLanguageButton() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        margin: const EdgeInsets.only(top: 30, right: 24),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(AppImages.vietnamFlag, width: 20, height: 15),
-            const SizedBox(width: 8),
-            const Text(
-              'Tiếng Việt',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppColorConstants.primary),
-            ),
-            const SizedBox(width: 4),
-            const Icon(Icons.keyboard_arrow_down, size: 16),
-          ],
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return SelectLanguageModal();
+          },
+        );
+      },
+
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: AppDimensConstants.defaultPadding, vertical: AppDimensConstants.smallPadding),
+          decoration: BoxDecoration(color: AppColorConstants.white, borderRadius: BorderRadius.circular(AppDimensConstants.extraLargeBorderRadius)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: AppDimensConstants.smallPadding,
+            children: [
+              Image.asset(AppAssets.vietnamFlag, width: AppDimensConstants.defaultIconSize, height: AppDimensConstants.defaultIconSize),
+              const Text(
+                AppTextConstants.vietnamese,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColorConstants.primary),
+              ),
+              const Icon(Icons.keyboard_arrow_down, size: AppDimensConstants.smallIconSize),
+            ],
+          ),
         ),
       ),
     );
@@ -102,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
         alignment: Alignment.bottomLeft,
         child: const Text(
           'Khởi đầu cùng Xanh!',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppColorConstants.primary),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xff20B2AA)),
           textAlign: TextAlign.center,
         ),
       ),
@@ -110,33 +129,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildPhoneInput() {
-    return Row(
-      children: [
-        Row(
-          children: [
-            Image.asset(AppImages.vietnamFlag, width: 20, height: 15),
-            const SizedBox(width: 8),
-            Text(
-              '+84',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: AppColorConstants.primary),
-            ),
-            const SizedBox(width: 4),
-            Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.grey.shade400),
-          ],
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: TextFormField(
-            controller: _phoneController,
-            onChanged: (value) => _bloc.add(LoginEvent.phoneNumberChanged(value)),
-            decoration: InputDecoration(
-              hintText: 'Số điện thoại',
-              hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 16),
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-      ],
+    return AppTextInput(onChanged: (value) => _bloc.add(LoginEvent.phoneNumberChanged(value)), controller: _phoneController, hintText: AppTextConstants.phoneNumber, keyboardType: TextInputType.phone, inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)]);
+  }
+
+  Widget _buildContinueButton() {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) => previous.isValidPhoneNumber != current.isValidPhoneNumber,
+      builder: (context, state) {
+        return AppButton(
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: AppColorConstants.white),
+          disabled: !state.isValidPhoneNumber,
+          onPressed: () => _navigator.pushNamed(RouterPath.sendOtp, extra: state.phoneNumber),
+          text: AppTextConstants.continueText,
+        );
+      },
     );
   }
 }

@@ -1,7 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:etaxi_user/core/config/app_config.dart';
 import 'package:etaxi_user/core/di/service_locator.dart';
 import 'package:etaxi_user/core/navigation/app_router.dart';
 import 'package:etaxi_user/core/services/asset_preloader.dart';
+import 'package:etaxi_user/core/utils/keyboard.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +23,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData(fontFamily: 'OpenSans', useMaterial3: true),
-      routerConfig: getIt<AppRouter>().router,
+    return GestureDetector(
+      onTap: () => KeyboardUtils.hideKeyboard(context),
+      child: MaterialApp.router(
+        localizationsDelegates: [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
+        supportedLocales: [Locale('en'), Locale("vi")],
+        theme: ThemeData(useMaterial3: true, fontFamily: AppConfigs.fontFamily),
+        routerConfig: getIt<AppRouter>().router,
+      ),
     );
   }
 }

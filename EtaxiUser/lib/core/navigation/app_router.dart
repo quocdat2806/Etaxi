@@ -1,14 +1,16 @@
 import 'package:etaxi_user/application/authentication/authentication_bloc.dart';
+import 'package:etaxi_user/presentation/pages/create_password/create_password_page.dart';
+import 'package:etaxi_user/presentation/pages/login/login_page.dart';
 import 'package:etaxi_user/presentation/pages/main/main_page.dart';
 import 'package:etaxi_user/presentation/pages/onboarding/onboarding_page.dart';
+import 'package:etaxi_user/presentation/pages/send_otp/send_otp_page.dart';
 import 'package:etaxi_user/presentation/pages/splash/splash_page.dart';
-import 'package:etaxi_user/presentation/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import './page_transitions.dart';
 import './router_path.dart';
 import './router_refresh.dart';
-import './page_transitions.dart';
 
 class AppRouter {
   AppRouter(this.authBloc);
@@ -40,6 +42,23 @@ class AppRouter {
         name: RouterPath.login,
         path: RouterPath.login,
         pageBuilder: (context, state) => PageTransitions.slideTransition(context: context, state: state, child: const LoginPage()),
+      ),
+      GoRoute(
+        name: RouterPath.createPassword,
+        path: RouterPath.createPassword,
+        pageBuilder: (context, state) => PageTransitions.slideTransition(context: context, state: state, child: const CreatePasswordPage()),
+      ),
+      GoRoute(
+        name: RouterPath.sendOtp,
+        path: RouterPath.sendOtp,
+        pageBuilder: (context, state) {
+          final String phoneNumber = state.extra as String;
+          return PageTransitions.slideTransition(
+            context: context,
+            state: state,
+            child: SendOtpPage(phoneNumber: phoneNumber),
+          );
+        },
       ),
     ],
     // redirect: (BuildContext context, GoRouterState state) {

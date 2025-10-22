@@ -1,17 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
+
+import 'package:etaxi_user/core/constants/app_colors.dart';
+import 'package:etaxi_user/core/constants/app_dimensions.dart';
+import 'package:etaxi_user/core/constants/app_images.dart';
+import 'package:etaxi_user/core/constants/app_texts.dart';
 import 'package:etaxi_user/core/navigation/app_navigation.dart';
 import 'package:etaxi_user/core/navigation/router_path.dart';
-import 'package:etaxi_user/core/constants/app_colors.dart';
-import 'package:etaxi_user/core/constants/app_images.dart';
 import 'package:etaxi_user/core/services/onboarding_service.dart';
-import 'package:etaxi_user/core/constants/app_texts.dart';
-import 'package:etaxi_user/presentation/widgets/button/app_button.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:etaxi_user/presentation/blocs/onboarding/onboarding_bloc.dart';
 import 'package:etaxi_user/presentation/blocs/onboarding/onboarding_event.dart';
 import 'package:etaxi_user/presentation/blocs/onboarding/onboarding_state.dart';
+import 'package:etaxi_user/presentation/widgets/button/app_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -26,7 +28,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   late OnboardingBloc _bloc;
   Timer? _timer;
 
-  final List<String> _onboardingImages = AppImages.onboardingImages;
+  final List<String> _onboardingImages = AppAssets.onboardingImages;
 
   @override
   void initState() {
@@ -112,7 +114,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 );
               },
             ),
-            Positioned(bottom: 20, left: 10, right: 10, child: _buildBottomContent()),
+            Positioned(bottom: AppDimensConstants.defaultSpacing, left: AppDimensConstants.smallPadding, right: AppDimensConstants.smallPadding, child: _buildBottomContent()),
           ],
         ),
       ),
@@ -133,17 +135,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   Widget _buildBottomContent() {
     return Column(
-      spacing: 16,
+      spacing: AppDimensConstants.defaultSpacing,
       children: [
         Text(
           AppTextConstants.welcomeToETaxi,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: AppColorConstants.white),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Checkbox(value: true, onChanged: (value) {}, activeColor: AppColorConstants.primary),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppDimensConstants.smallSpacing),
             Expanded(
               child: RichText(
                 softWrap: true,
@@ -152,7 +154,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     TextSpan(text: AppTextConstants.byContinuing),
                     TextSpan(
                       text: AppTextConstants.termsOfService,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColorConstants.white),
                     ),
                     TextSpan(text: ' ${AppTextConstants.of} ${AppTextConstants.eTaxi}'),
                   ],

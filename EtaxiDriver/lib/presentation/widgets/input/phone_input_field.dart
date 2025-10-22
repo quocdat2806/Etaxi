@@ -1,6 +1,6 @@
+import 'package:etaxi_driver/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:etaxi_user/core/constants/app_colors.dart';
 
 class PhoneInputField extends StatefulWidget {
   final TextEditingController controller;

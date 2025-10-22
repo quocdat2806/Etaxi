@@ -13,6 +13,9 @@ class AppTextConstants {
   static const String transfer = 'Chuyển khoản';
   static const String home = 'Trang chủ';
   static const String chart = 'Biểu đồ';
+  static const String activity = 'Hoạt động';
+  static const String notification = 'Thông báo';
+  static const String discover = 'Khám phá';
   static const String report = 'Báo cáo';
   static const String profile = 'Tôi';
   static const String other = 'Khác';
@@ -114,4 +117,9 @@ class AppTextConstants {
   static const String byContinuing = 'Bằng cách nhấn nút Tiếp tục, bạn đã đồng ý với các ';
   static const String agreeTo = 'Đồng ý với';
   static const String termsAndConditions = 'Điều khoản và điều kiện';
+
+  // Login page texts
+  static const String vietnamese = 'Tiếng Việt';
+  static const String phoneNumber = 'Số điện thoại';
+  static const String startWithGreen = 'Khởi đầu cùng Xanh!';
 }

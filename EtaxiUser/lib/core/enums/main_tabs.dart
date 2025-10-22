@@ -2,9 +2,10 @@ import 'package:etaxi_user/core/constants/app_texts.dart';
 
 enum MainTabs {
   home(0, AppTextConstants.home),
-  chart(1, AppTextConstants.chart),
-  report(2, AppTextConstants.report),
-  profile(3, AppTextConstants.profile);
+  activity(1, AppTextConstants.activity),
+  discover(2, AppTextConstants.discover),
+  notification(3, AppTextConstants.notification),
+  profile(4, AppTextConstants.profile);
 
   const MainTabs(this.tabIndex, this.label);
 
@@ -12,11 +13,8 @@ enum MainTabs {
   final String label;
 
   static MainTabs fromIndex(int index) {
-    return MainTabs.values.firstWhere(
-      (type) => type.tabIndex == index,
-      orElse: () => MainTabs.home,
-    );
+    return MainTabs.values.firstWhere((type) => type.tabIndex == index, orElse: () => MainTabs.home);
   }
 
-  static const int totalTypes = 4;
+  static const int totalTypes = 5;
 }

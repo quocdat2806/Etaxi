@@ -1,5 +1,5 @@
-import 'package:flutter/services.dart';
 import 'package:etaxi_user/core/constants/app_images.dart';
+import 'package:flutter/services.dart';
 
 class AssetPreloader {
   static final AssetPreloader _instance = AssetPreloader._internal();
@@ -12,7 +12,7 @@ class AssetPreloader {
     if (_isPreloaded) return;
 
     try {
-      await Future.wait(AppImages.onboardingImages.map(rootBundle.load));
+      await Future.wait(AppAssets.onboardingImages.map(rootBundle.load));
       _isPreloaded = true;
     } catch (e) {
       rethrow;
